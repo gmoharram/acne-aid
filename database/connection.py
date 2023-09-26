@@ -1,6 +1,4 @@
 import os
-from contextlib import contextmanager
-
 from sqlmodel import SQLModel, Session, create_engine
 
 from models.user import User
