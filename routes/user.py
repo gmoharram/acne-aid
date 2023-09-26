@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends, Path, status
+from fastapi.security import OAuth2PasswordRequestForm
 
+from auth.hash_password import HashPassword
 from database.connection import get_session
-
 from database.querying import (
     insert_record,
     get_record,
@@ -9,12 +10,11 @@ from database.querying import (
     delete_record,
     select_all,
 )
-
 from models.user import User, UserUpdate
 from models.response import ResponseModel, ResponseAllUsers, ResponseOneUser
 
+password_hasher = HashPassword()
 user_router = APIRouter(tags=["Users"])
-users_dict = {}
 
 
 @user_router.post(
@@ -23,8 +23,15 @@ users_dict = {}
     status_code=status.HTTP_201_CREATED,
 )
 async def signup_user(user: User, session=Depends(get_session)) -> dict:
-    insert_record(user, session)
+    hashed_password = password_hasher.create_hash(user.password)
+    user.password = hashed_password
+    await insert_record(user, session)
     return {"message": "User successfully registered!"}
+
+
+@user_router.post("/user/signin", response_model=ResponseModel)
+async def singin_user(user: OAuth2PasswordRequestForm = Depends()) -> dict:
+    pass
 
 
 @user_router.get("/user/{user_id}", response_model=ResponseOneUser)
