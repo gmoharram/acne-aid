@@ -15,3 +15,8 @@ class ResponseAllUsers(ResponseModel):
 
 class ResponseOneUser(ResponseModel):
     data: User
+
+
+class TokenResponse(ResponseModel):
+    access_token: str
+    token_type: str
