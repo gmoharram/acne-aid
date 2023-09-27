@@ -31,7 +31,7 @@ async def select_all(data_model, session):
 
 
 async def update_record(record_id, data_model, updated_record, session):
-    record = get_record(record_id, data_model, session=session)
+    record = await get_record(record_id, data_model, session=session)
     record_data = updated_record.dict(exclude_unset=True)
     for key, value in record_data.items():
         setattr(record, key, value)
@@ -42,6 +42,6 @@ async def update_record(record_id, data_model, updated_record, session):
 
 
 async def delete_record(record_id, data_model, session):
-    record = get_record(record_id, data_model, session=session)
+    record = await get_record(record_id, data_model, session=session)
     session.delete(record)
     session.commit()

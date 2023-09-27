@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, Path, status
 from fastapi.security import OAuth2PasswordRequestForm
-import pdb
 
+from auth.authenticate import authenticate
 from auth.jwt_handler import create_access_token
 from auth.hash_password import HashPassword
 from database.connection import get_session
@@ -56,9 +56,9 @@ async def singin_user(
         }
 
 
-@user_router.get("/user/{user_id}", response_model=ResponseOneUser)
+@user_router.get("/user/", response_model=ResponseOneUser)
 async def retrieve_user(
-    user_id: int = Path(..., title="The ID of the user to retrieve."),
+    user_id: int = Depends(authenticate),
     session=Depends(get_session),
 ) -> dict:
     record = await get_record(user_id, User, session)
@@ -71,17 +71,19 @@ async def retrieve_all_users(session=Depends(get_session)) -> dict:
     return {"data": records}
 
 
-@user_router.put("/user/{user_id}", response_model=ResponseOneUser)
+@user_router.put("/user/", response_model=ResponseOneUser)
 async def update_user(
-    user_id: int, updated_user: UserUpdate, session=Depends(get_session)
+    updated_user: UserUpdate,
+    user_id: int = Depends(authenticate),
+    session=Depends(get_session),
 ) -> dict:
     record = await update_record(user_id, User, updated_user, session)
     return {"message": "User sucessfully updated!", "data": record}
 
 
-@user_router.delete("/user/{user_id}", response_model=ResponseModel)
+@user_router.delete("/user/", response_model=ResponseModel)
 async def delete_user(
-    user_id: int = Path(..., title="The ID of the user to delete"),
+    user_id: int = Depends(authenticate),
     session=Depends(get_session),
 ) -> dict:
     await delete_record(user_id, User, session)
