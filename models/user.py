@@ -1,5 +1,5 @@
 from sqlmodel import SQLModel, Field
-from datetime import date
+from datetime import datetime, date
 from typing import Optional
 
 
@@ -15,7 +15,7 @@ class User(UserSignin, table=True):
     username: str
     sex: str
     birthdate: date
-    date_created: date
+    date_created: date = datetime.today().strftime("%Y-%m-%d")
     date_deleted: Optional[date] = None
 
     class Config:
