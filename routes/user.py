@@ -56,7 +56,7 @@ async def singin_user(
         }
 
 
-@user_router.get("/user/", response_model=ResponseOneUser)
+@user_router.get("/user/get", response_model=ResponseOneUser)
 async def retrieve_user(
     user_id: int = Depends(authenticate),
     session=Depends(get_session),
@@ -65,7 +65,7 @@ async def retrieve_user(
     return {"data": record}
 
 
-@user_router.get("/user/", response_model=ResponseAllUsers)
+@user_router.get("/user/get-all", response_model=ResponseAllUsers)
 async def retrieve_all_users(session=Depends(get_session)) -> dict:
     records = await select_all(User, session)
     return {"data": records}

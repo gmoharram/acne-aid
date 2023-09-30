@@ -34,7 +34,7 @@ async def test_retrieve_user(testuser_form, default_client: httpx.AsyncClient):
     token = signin_response.json().get("access_token")
 
     headers = {"content-type": "application/json", "Authorization": f"Bearer {token}"}
-    response = await default_client.get("user/", headers=headers)
+    response = await default_client.get("user/get", headers=headers)
 
     assert response.status_code == status.HTTP_200_OK
 

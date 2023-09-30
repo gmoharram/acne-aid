@@ -27,7 +27,6 @@ class User(UserSignin, table=True):
                 "username": "Gana",
                 "sex": "female",
                 "birthdate": "2023-09-13",
-                "date_created": "2023-09-13",
             }
         }
 
