@@ -15,8 +15,28 @@ def event_loop():
     loop.close()
 
 
-# Mock API #
+# API #
 @pytest.fixture(scope="session")
 async def default_client():
     async with httpx.AsyncClient(app=app, base_url="http://app") as client:
         yield client
+
+
+# Test User #
+@pytest.fixture()
+def testuser_dict():
+    return {
+        "email": "testuser@mail.com",
+        "password": "testpassword",
+        "username": "test-user",
+        "sex": "female",
+        "birthdate": "2000-01-07",
+    }
+
+
+@pytest.fixture()
+def testuser_form():
+    return {
+        "username": "testuser@mail.com",
+        "password": "testpassword",
+    }
