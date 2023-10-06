@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Path, status
+from fastapi import APIRouter, Depends, Path, status, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 
 from auth.authenticate import authenticate
@@ -31,6 +31,13 @@ user_router = APIRouter(tags=["Users"])
     status_code=status.HTTP_201_CREATED,
 )
 async def signup_user(user: User, session=Depends(get_session)) -> dict:
+    users_with_same_email = await get_records_by_field(
+        user.email, "email", User, session
+    )
+    if users_with_same_email is not None:
+        raise HTTPException(
+            status_code=400, detail="User with this email already exists."
+        )
     hashed_password = password_hasher.create_hash(user.password)
     user.password = hashed_password
     await insert_record(user, session)
@@ -43,7 +50,10 @@ async def singin_user(
 ) -> dict:
     # check that there is exactly one user with the email provided
     users_found = await get_records_by_field(user_form.username, "email", User, session)
-    assert len(users_found) == 1
+    if len(users_found) > 1:
+        raise HTTPException(
+            status_code=500, detail="Multiple users with this email found."
+        )
     user = users_found[0]
 
     # authenticate user with password

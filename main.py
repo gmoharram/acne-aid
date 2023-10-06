@@ -2,8 +2,10 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
-from routes.user import user_router
 from database.connection import conn
+from routes.user import user_router
+from routes.experiment import experiment_router
+from routes.image import image_router
 
 app = FastAPI()
 
@@ -29,6 +31,8 @@ async def welcome() -> dict:
 
 # Register Routes
 app.include_router(user_router)
+app.include_router(experiment_router)
+app.include_router(image_router)
 
 
 @app.on_event("startup")
