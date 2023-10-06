@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Path, status, HTTPException
+from fastapi import APIRouter, Depends, status, HTTPException
 
 from auth.authenticate import authenticate
 from database.connection import get_session
@@ -13,19 +13,26 @@ from database.querying import (
 )
 from models.experiment import ExperimentData, Experiment, Object, Action, RoutineStep
 from models.response import ResponseModel
-from routes.utils import timing_and_order_to_timestamp, set_experiment_end_date, joined_records_to_experiment_data
+from routes.utils import (
+    timing_and_order_to_timestamp,
+    set_experiment_end_date,
+    joined_records_to_experiment_data,
+)
 
-import pdb
 
 experiment_router = APIRouter(tags=["Experiments"])
 
 
-@experiment_router.get("/experiment/get", response_model=ResponseModel)
+@experiment_router.get("/experiment/retrieve", response_model=ResponseModel)
 async def get_experiment(
     experiment_name: str, user_id=Depends(authenticate), session=Depends(get_session)
 ):
     data_models_dict = {}
-    data_models_dict[Experiment] = (None, None, {"name": experiment_name})
+    data_models_dict[Experiment] = (
+        None,
+        None,
+        {"name": experiment_name, "user_id": user_id},
+    )
     data_models_dict[RoutineStep] = (Experiment.id, RoutineStep.experiment_id, None)
     data_models_dict[Object] = (RoutineStep.object_id, Object.id, None)
     data_models_dict[Action] = (RoutineStep.action_id, Action.id, None)
@@ -42,6 +49,33 @@ async def get_experiment(
     return {"message": "Experiment successfully retrieved.", "data": experiment_data}
 
 
+@experiment_router.get("/experiment/retrieve-all", response_model=ResponseModel)
+async def get_all_experiments_for_user(
+    user_id=Depends(authenticate), session=Depends(get_session)
+):
+    data_models_dict = {}
+    data_models_dict[Experiment] = (None, None, {"user_id": user_id})
+    data_models_dict[RoutineStep] = (Experiment.id, RoutineStep.experiment_id, None)
+    data_models_dict[Object] = (RoutineStep.object_id, Object.id, None)
+    data_models_dict[Action] = (RoutineStep.action_id, Action.id, None)
+    joined_records = await cross_inner_join_w_constraints(data_models_dict, session)
+
+    if not joined_records:
+        return {"message": "No experiments found for user."}
+
+    data = {}
+    experiment_ids = set([joined_record[0].id for joined_record in joined_records])
+    for id in experiment_ids:
+        records = [
+            joined_record
+            for joined_record in joined_records
+            if joined_record[0].id == id
+        ]
+        data[id] = joined_records_to_experiment_data(records)
+
+    return {"message": "Experiment successfully retrieved.", "data": data}
+
+
 @experiment_router.post(
     "/experiment/create",
     response_model=ResponseModel,
@@ -54,8 +88,10 @@ async def create_experiment(
 ):
     # Check that user doesn't have experiment of the same name
     fields_dict = {"user_id": user_id, "name": experiment_data.experiment_name}
-    experiments_with_same_name = get_records_by_fields(fields_dict, Experiment, session)
-    if experiments_with_same_name is not None:
+    experiments_with_same_name = await get_records_by_fields(
+        fields_dict, Experiment, session
+    )
+    if experiments_with_same_name:
         raise HTTPException(
             status_code=400, detail="Experiment with this name already exists for user."
         )

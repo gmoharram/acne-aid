@@ -18,3 +18,4 @@ class ProgressImage(SQLModel, table=True):
     image_format: ImageFormat
     image_size: int
     date_uploaded: date = datetime.today().strftime("%Y-%m-%d")
+    deleted: bool = False
