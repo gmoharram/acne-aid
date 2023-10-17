@@ -6,6 +6,7 @@ from database.connection import conn
 from routes.user import user_router
 from routes.experiment import experiment_router
 from routes.image import image_router
+from routes.ai import ai_router
 
 app = FastAPI()
 
@@ -33,6 +34,7 @@ async def welcome() -> dict:
 app.include_router(user_router)
 app.include_router(experiment_router)
 app.include_router(image_router)
+app.include_router(ai_router)
 
 
 @app.on_event("startup")

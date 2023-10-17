@@ -44,6 +44,7 @@ async def upload_image(
 
     image_record = ProgressImage(
         experiment_id=experiment_id,
+        user_id=user_id,
         storage_bucket=storage_bucket,
         image_path=image_path,
         image_format=image.content_type.split("/")[1],

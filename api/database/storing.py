@@ -1,15 +1,12 @@
 import os
 from supabase import create_client, Client
 from fastapi import UploadFile
-from typing import List
-import pdb
+
 from models.image import ProgressImage
 
 url: str = os.environ.get("SUPABASE_URL")
 key: str = os.environ.get("SUPABASE_KEY")
 supabase: Client = create_client(url, key)
-
-res = supabase.storage.list_buckets()
 
 
 async def upload_progress_image(
