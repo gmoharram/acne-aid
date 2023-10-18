@@ -1,8 +1,10 @@
-### Supabase DB credentials ###
+### Supabase DB Credentials ###
 export DB_PASSWORD=""
 export DB_URI="postgresql://postgres:$DB_PASSWORD@db.wthddiekkdzznwzsnjus.supabase.co:5432/postgres"
-### Supabase client for object storage ###
+
+### Supabase Object Storage Credentials ###
 export SUPABASE_URL="https://wthddiekkdzznwzsnjus.supabase.co"
 export SUPABASE_KEY=""
+
 ### Authentication ###
 export JWT_SECRET_KEY=""

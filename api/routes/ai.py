@@ -5,6 +5,7 @@ from ai.skin_segmentation_nn import SkinSegmentationNN
 from auth.authenticate import authenticate
 from database.connection import get_session
 from database.querying import get_record
+from database.storing import download_progress_image
 from models.image import ProgressImage
 from models.response import ResponseModel
 
@@ -29,6 +30,9 @@ async def segment_image(
         raise HTTPException(
             status_code=400, detail="Cannot segment image of another user"
         )
+
+    storage_bucket = "progress.skin"
+    image = await download_progress_image(image_record, storage_bucket)
 
     pdb.set_trace()
 
