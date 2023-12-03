@@ -5,30 +5,10 @@ import torch
 import torch.utils.data as data
 from PIL import Image
 
-from constants import INPUT_HEIGHT, INPUT_WIDTH
-from utils import transform_image, transform_target
+from .constants import INPUT_HEIGHT, INPUT_WIDTH
+from .utils import transform_image, transform_target, label_img_to_rgb
 
 from IPython.core.debugger import set_trace
-
-SEG_LABELS_LIST = [
-    {"id": 0, "name": "void", "rgb_values": [0, 0, 0]},
-    {"id": 1, "name": "non-skin", "rgb_values": [0, 0, 128]},
-    {"id": 2, "name": "skin", "rgb_values": [0, 128, 0]},
-    {"id": 3, "name": "acne", "rgb_values": [128, 0, 0]},
-]
-
-
-def label_img_to_rgb(label_img):
-    label_img = np.squeeze(label_img)
-    labels = np.unique(label_img)
-    label_infos = [l for l in SEG_LABELS_LIST if l["id"] in labels]
-
-    label_img_rgb = np.array([label_img, label_img, label_img]).transpose(1, 2, 0)
-    for l in label_infos:
-        mask = label_img == l["id"]
-        label_img_rgb[mask] = l["rgb_values"]
-
-    return label_img_rgb.astype(np.uint8)
 
 
 class SkinSegmentationData(data.Dataset):

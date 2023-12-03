@@ -2,7 +2,7 @@ import numpy as np
 import torch
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-from .skin_segmentation_dataset import SEG_LABELS_LIST
+from .constants import SEG_LABELS_LIST
 
 from IPython.core.debugger import set_trace
 
