@@ -7,20 +7,44 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		320214FD2B35132E0084739A /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 320214FC2B35132E0084739A /* HomeView.swift */; };
+		322D1FE92B40C196009A983F /* CameraPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322D1FE82B40C196009A983F /* CameraPreview.swift */; };
+		322D1FEB2B40C327009A983F /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322D1FEA2B40C327009A983F /* CameraManager.swift */; };
+		322D1FED2B40FF31009A983F /* CameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322D1FEC2B40FF31009A983F /* CameraViewModel.swift */; };
+		3285A2242B3CFA32001B8487 /* InsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3285A2232B3CFA32001B8487 /* InsightsView.swift */; };
+		3285A2262B3E1A17001B8487 /* SelfieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3285A2252B3E1A17001B8487 /* SelfieView.swift */; };
+		329E22372B40A2EC00235BA9 /* ImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329E22362B40A2EC00235BA9 /* ImagesView.swift */; };
+		329E22392B40A40200235BA9 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329E22382B40A40200235BA9 /* ProfileView.swift */; };
 		32C368732B2BC50C0090A15F /* AcneAidApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C368722B2BC50C0090A15F /* AcneAidApp.swift */; };
 		32C368752B2BC50C0090A15F /* SigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C368742B2BC50C0090A15F /* SigninView.swift */; };
 		32C368772B2BC50D0090A15F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 32C368762B2BC50D0090A15F /* Assets.xcassets */; };
-		32C3687A2B2BC50D0090A15F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 32C368792B2BC50D0090A15F /* Preview Assets.xcassets */; };
 		32C368812B2BC6340090A15F /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32C368802B2BC6340090A15F /* Launch Screen.storyboard */; };
+		32C368832B2BD3000090A15F /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C368822B2BD3000090A15F /* SignupView.swift */; };
+		32DF39952B3CA77700B2B87E /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DF39942B3CA77700B2B87E /* MainView.swift */; };
+		32DF39972B3CAFF500B2B87E /* RoutinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DF39962B3CAFF500B2B87E /* RoutinesView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		320214FC2B35132E0084739A /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		322D1FE82B40C196009A983F /* CameraPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreview.swift; sourceTree = "<group>"; };
+		322D1FEA2B40C327009A983F /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
+		322D1FEC2B40FF31009A983F /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
+		3285A2232B3CFA32001B8487 /* InsightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsView.swift; sourceTree = "<group>"; };
+		3285A2252B3E1A17001B8487 /* SelfieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfieView.swift; sourceTree = "<group>"; };
+		329E22362B40A2EC00235BA9 /* ImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesView.swift; sourceTree = "<group>"; };
+		329E22382B40A40200235BA9 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		32C3686F2B2BC50C0090A15F /* AcneAid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AcneAid.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		32C368722B2BC50C0090A15F /* AcneAidApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcneAidApp.swift; sourceTree = "<group>"; };
 		32C368742B2BC50C0090A15F /* SigninView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninView.swift; sourceTree = "<group>"; };
 		32C368762B2BC50D0090A15F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		32C368792B2BC50D0090A15F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		32C368802B2BC6340090A15F /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		32C368822B2BD3000090A15F /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
+		32DF39942B3CA77700B2B87E /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		32DF39962B3CAFF500B2B87E /* RoutinesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutinesView.swift; sourceTree = "<group>"; };
+		32E47EFA2B4631A600CC4864 /* My_IphoneApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = My_IphoneApp.swift; sourceTree = "<group>"; };
+		32E47EFC2B4631A600CC4864 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		32E47EFE2B4631A700CC4864 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		32E47F012B4631A700CC4864 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,10 +58,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3285A2292B3E2437001B8487 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				32C368742B2BC50C0090A15F /* SigninView.swift */,
+				32C368822B2BD3000090A15F /* SignupView.swift */,
+				32DF39942B3CA77700B2B87E /* MainView.swift */,
+				320214FC2B35132E0084739A /* HomeView.swift */,
+				32DF39962B3CAFF500B2B87E /* RoutinesView.swift */,
+				3285A2232B3CFA32001B8487 /* InsightsView.swift */,
+				3285A2252B3E1A17001B8487 /* SelfieView.swift */,
+				329E22362B40A2EC00235BA9 /* ImagesView.swift */,
+				329E22382B40A40200235BA9 /* ProfileView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		328911CD2B9610490061E6A4 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				322D1FEA2B40C327009A983F /* CameraManager.swift */,
+				322D1FEC2B40FF31009A983F /* CameraViewModel.swift */,
+				322D1FE82B40C196009A983F /* CameraPreview.swift */,
+			);
+			path = Camera;
+			sourceTree = "<group>";
+		};
 		32C368662B2BC50C0090A15F = {
 			isa = PBXGroup;
 			children = (
 				32C368712B2BC50C0090A15F /* AcneAid */,
+				32E47EF92B4631A600CC4864 /* My Iphone */,
 				32C368702B2BC50C0090A15F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -53,19 +104,30 @@
 		32C368712B2BC50C0090A15F /* AcneAid */ = {
 			isa = PBXGroup;
 			children = (
-				32C368802B2BC6340090A15F /* Launch Screen.storyboard */,
+				328911CD2B9610490061E6A4 /* Camera */,
+				3285A2292B3E2437001B8487 /* Views */,
 				32C368722B2BC50C0090A15F /* AcneAidApp.swift */,
-				32C368742B2BC50C0090A15F /* SigninView.swift */,
+				32C368802B2BC6340090A15F /* Launch Screen.storyboard */,
 				32C368762B2BC50D0090A15F /* Assets.xcassets */,
-				32C368782B2BC50D0090A15F /* Preview Content */,
 			);
 			path = AcneAid;
 			sourceTree = "<group>";
 		};
-		32C368782B2BC50D0090A15F /* Preview Content */ = {
+		32E47EF92B4631A600CC4864 /* My Iphone */ = {
 			isa = PBXGroup;
 			children = (
-				32C368792B2BC50D0090A15F /* Preview Assets.xcassets */,
+				32E47EFA2B4631A600CC4864 /* My_IphoneApp.swift */,
+				32E47EFC2B4631A600CC4864 /* ContentView.swift */,
+				32E47EFE2B4631A700CC4864 /* Assets.xcassets */,
+				32E47F002B4631A700CC4864 /* Preview Content */,
+			);
+			path = "My Iphone";
+			sourceTree = "<group>";
+		};
+		32E47F002B4631A700CC4864 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				32E47F012B4631A700CC4864 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -129,7 +191,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				32C368812B2BC6340090A15F /* Launch Screen.storyboard in Resources */,
-				32C3687A2B2BC50D0090A15F /* Preview Assets.xcassets in Resources */,
 				32C368772B2BC50D0090A15F /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -141,8 +202,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32DF39952B3CA77700B2B87E /* MainView.swift in Sources */,
+				32DF39972B3CAFF500B2B87E /* RoutinesView.swift in Sources */,
+				329E22392B40A40200235BA9 /* ProfileView.swift in Sources */,
+				329E22372B40A2EC00235BA9 /* ImagesView.swift in Sources */,
+				32C368832B2BD3000090A15F /* SignupView.swift in Sources */,
+				320214FD2B35132E0084739A /* HomeView.swift in Sources */,
+				322D1FE92B40C196009A983F /* CameraPreview.swift in Sources */,
 				32C368752B2BC50C0090A15F /* SigninView.swift in Sources */,
+				3285A2242B3CFA32001B8487 /* InsightsView.swift in Sources */,
+				3285A2262B3E1A17001B8487 /* SelfieView.swift in Sources */,
+				322D1FEB2B40C327009A983F /* CameraManager.swift in Sources */,
 				32C368732B2BC50C0090A15F /* AcneAidApp.swift in Sources */,
+				322D1FED2B40FF31009A983F /* CameraViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,6 +351,9 @@
 				DEVELOPMENT_TEAM = 7HFM996Z35;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "AcneAid uses the camera to allow you to take daily selfies and track your skincare progress.";
+				INFOPLIST_KEY_NSFileProviderDomainUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Allow saving images to photo gallery.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -309,6 +384,9 @@
 				DEVELOPMENT_TEAM = 7HFM996Z35;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "AcneAid uses the camera to allow you to take daily selfies and track your skincare progress.";
+				INFOPLIST_KEY_NSFileProviderDomainUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Allow saving images to photo gallery.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
