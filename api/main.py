@@ -1,3 +1,5 @@
+import os
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
@@ -11,7 +13,6 @@ from routes.ai import ai_router
 app = FastAPI()
 
 # Register origins (allowed to access API)
-
 origins = ["*"]  # TODO: Restrict origins to frontend app
 app.add_middleware(
     CORSMiddleware,
@@ -23,8 +24,6 @@ app.add_middleware(
 
 
 # Define routes
-
-
 @app.get("/")
 async def welcome() -> dict:
     return {"message": "Welcome to the SkinAssist API!"}
@@ -43,4 +42,14 @@ def on_startup():
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", port=8000, reload=True)
+
+    ssl_certfile = os.environ.get("SSL_CERTFILE").replace("\r", "")
+    ssl_keyfile = os.environ.get("SSL_KEYFILE").replace("\r", "")
+
+    uvicorn.run(
+        "main:app",
+        port=8000,
+        reload=True,
+        ssl_certfile=ssl_certfile,
+        ssl_keyfile=ssl_keyfile,
+    )

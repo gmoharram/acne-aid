@@ -4,7 +4,7 @@ from sqlmodel import SQLModel, Session, create_engine
 from models.user import User
 
 
-db_uri = os.getenv("DB_URI")
+db_uri = os.getenv("DB_URI").replace("\r", "")
 assert db_uri is not None, "DB_URI environment variable not defined!"
 engine = create_engine(db_uri, echo=True)
 

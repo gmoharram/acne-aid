@@ -1,10 +1,8 @@
-### Supabase DB Credentials ###
-export DB_PASSWORD=""
-export DB_URI="postgresql://postgres:$DB_PASSWORD@db.wthddiekkdzznwzsnjus.supabase.co:5432/postgres"
-
-### Supabase Object Storage Credentials ###
-export SUPABASE_URL="https://wthddiekkdzznwzsnjus.supabase.co"
-export SUPABASE_KEY=""
-
-### Authentication ###
-export JWT_SECRET_KEY=""
+### SUPABASE DB CREDENTIALS ###
+export DB_PASSWORD="User password created for postgres user at the time of database creation."
+export DB_URI="postgresql://postgres.ubcapjlvybwnzqbqauma:$DB_PASSWORD@aws-0-eu-central-1.pooler.supabase.com:5432/postgres"
+### SUPABASE OBJECT STORAGE CREDENTIALS ###
+export SUPABASE_URL="https://ubcapjlvybwnzqbqauma.supabase.co"
+export SUPABASE_KEY="API KEY"
+### AUTHENTICATION ###
+export JWT_SECRET_KEY="JWT Secret Key"
