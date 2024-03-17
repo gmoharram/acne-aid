@@ -1,4 +1,3 @@
-# No blank lines in macs for some reason
 ### Supabase DB Credentials ###
 export DB_PASSWORD=""
 export DB_URI="postgresql://postgres:$DB_PASSWORD@db.wthddiekkdzznwzsnjus.supabase.co:5432/postgres"
