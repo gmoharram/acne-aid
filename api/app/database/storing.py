@@ -8,8 +8,8 @@ from models.image import ProgressImage
 
 import pdb
 
-url: str = os.environ.get("SUPABASE_URL").replace("\r", "")
-key: str = os.environ.get("SUPABASE_KEY").replace("\r", "")
+url: str = os.environ.get("SUPABASE_URL")
+key: str = os.environ.get("SUPABASE_KEY")
 supabase: Client = create_client(url, key)
 
 

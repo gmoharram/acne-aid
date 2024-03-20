@@ -10,6 +10,8 @@ from routes.experiment import experiment_router
 from routes.image import image_router
 from routes.ai import ai_router
 
+import pdb
+
 app = FastAPI()
 
 # Register origins (allowed to access API)
@@ -43,13 +45,13 @@ def on_startup():
 
 if __name__ == "__main__":
 
-    ssl_certfile = os.environ.get("SSL_CERTFILE").replace("\r", "")
-    ssl_keyfile = os.environ.get("SSL_KEYFILE").replace("\r", "")
+    ssl_certfile = os.environ.get("SSL_CERTFILE")
+    ssl_keyfile = os.environ.get("SSL_KEYFILE")
 
     uvicorn.run(
         "main:app",
         port=8000,
-        reload=True,
+        reload=False,  # Set to True for development
         ssl_certfile=ssl_certfile,
         ssl_keyfile=ssl_keyfile,
     )

@@ -17,7 +17,7 @@ from models.response import ResponseModel
 import pdb
 
 ai_router = APIRouter(tags=["AI"])
-segmentation_model = load_model(SkinSegmentationNN, "ai/models/model")
+segmentation_model = load_model(SkinSegmentationNN, "app/ai/models/model")
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 

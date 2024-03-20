@@ -34,7 +34,7 @@ async def signup_user(user: User, session=Depends(get_session)) -> dict:
     users_with_same_email = await get_records_by_field(
         user.email, "email", User, session
     )
-    if users_with_same_email is not None:
+    if users_with_same_email:
         raise HTTPException(
             status_code=400, detail="User with this email already exists."
         )
@@ -73,12 +73,6 @@ async def retrieve_user(
 ) -> dict:
     record = await get_record(user_id, User, session)
     return {"data": record}
-
-
-@user_router.get("/user/get-all", response_model=ResponseAllUsers)
-async def retrieve_all_users(session=Depends(get_session)) -> dict:
-    records = await select_all(User, session)
-    return {"data": records}
 
 
 @user_router.put("/user/", response_model=ResponseOneUser)

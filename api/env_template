@@ -1,3 +1,5 @@
+# Removing "export" keyword works in macOS, but didn't work in Ubuntu 20.04 LTS.
+# In general issues transferring file between macOS and Windows git bash. Figure it out when needed
 ### SUPABASE DB CREDENTIALS ###
 export DB_PASSWORD="User password created for postgres user at the time of database creation."
 export DB_URI="postgresql://postgres.ubcapjlvybwnzqbqauma:$DB_PASSWORD@aws-0-eu-central-1.pooler.supabase.com:5432/postgres"
@@ -6,3 +8,6 @@ export SUPABASE_URL="https://ubcapjlvybwnzqbqauma.supabase.co"
 export SUPABASE_KEY="API KEY"
 ### AUTHENTICATION ###
 export JWT_SECRET_KEY="JWT Secret Key"
+### SELF-SIGNED SSL CERTIFICATE ###
+export SSL_CERTFILE="../certs/ssl.crt"
+export SSL_KEYFILE="../certs/ssl.key"
