@@ -19,4 +19,3 @@ COPY ./app /code/app
 
 # Run the application
 CMD ["python", "/code/app/main.py"]
-```
