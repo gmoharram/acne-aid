@@ -1,16 +1,17 @@
-import os
+# import os
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import uvicorn
 
-from database.connection import conn
-from routes.user import user_router
-from routes.experiment import experiment_router
-from routes.image import image_router
-from routes.ai import ai_router
+# import uvicorn
 
-import pdb
+from app.database.connection import conn
+from app.routes.user import user_router
+from app.routes.experiment import experiment_router
+from app.routes.image import image_router
+from app.routes.ai import ai_router
+
+# import pdb
 
 app = FastAPI()
 
@@ -38,20 +39,21 @@ app.include_router(image_router)
 app.include_router(ai_router)
 
 
+#
 @app.on_event("startup")
 def on_startup():
     conn()
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
 
-    ssl_certfile = os.environ.get("SSL_CERTFILE")
-    ssl_keyfile = os.environ.get("SSL_KEYFILE")
+#     ssl_certfile = os.environ.get("SSL_CERTFILE")
+#     ssl_keyfile = os.environ.get("SSL_KEYFILE")
 
-    uvicorn.run(
-        "main:app",
-        port=8000,
-        reload=False,  # Set to True for development
-        ssl_certfile=ssl_certfile,
-        ssl_keyfile=ssl_keyfile,
-    )
+#     uvicorn.run(
+#         "main:app",
+#         port=8000,
+#         reload=False,  # Set to True for development
+#         ssl_certfile=ssl_certfile,
+#         ssl_keyfile=ssl_keyfile,
+#     )

@@ -2,7 +2,7 @@ import numpy as np
 import torch
 from torchvision import transforms
 
-from ai.constants import INPUT_HEIGHT, INPUT_WIDTH, SEG_LABELS_LIST
+from app.ai.constants import INPUT_HEIGHT, INPUT_WIDTH, SEG_LABELS_LIST
 
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")

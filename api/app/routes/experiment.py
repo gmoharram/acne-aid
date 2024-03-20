@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, status, HTTPException
 
-from auth.authenticate import authenticate
-from database.connection import get_session
-from database.querying import (
+from app.auth.authenticate import authenticate
+from app.database.connection import get_session
+from app.database.querying import (
     insert_record,
     insert_records,
     get_records_by_field,
@@ -11,9 +11,15 @@ from database.querying import (
     cross_inner_join_w_constraints,
     update_record,
 )
-from models.experiment import ExperimentData, Experiment, Object, Action, RoutineStep
-from models.response import ResponseModel
-from routes.utils import (
+from app.models.experiment import (
+    ExperimentData,
+    Experiment,
+    Object,
+    Action,
+    RoutineStep,
+)
+from app.models.response import ResponseModel
+from app.routes.utils import (
     timing_and_order_to_timestamp,
     set_experiment_end_date,
     joined_records_to_experiment_data,

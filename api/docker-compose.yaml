@@ -1,0 +1,15 @@
+version: "0.0"
+services:
+  app:
+    container_name: app_container
+    image: app_image
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_URI=${DB_URI}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_KEY=${SUPABASE_KEY}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - SSL_CERTFILE=${SSL_CERTFILE}
+      - SSL_KEYFILE=${SSL_KEYFILE}

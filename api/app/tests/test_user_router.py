@@ -2,8 +2,7 @@ from fastapi import status
 import httpx
 import pytest
 
-from tests.fixtures import *
-import pdb
+from app.tests.fixtures import *
 
 
 @pytest.mark.asyncio

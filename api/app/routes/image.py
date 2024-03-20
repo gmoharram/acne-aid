@@ -1,17 +1,19 @@
-from fastapi import APIRouter, Depends, status, UploadFile, Path, HTTPException
 from datetime import datetime
-from auth.authenticate import authenticate
-from database.connection import get_session
-from database.querying import (
+
+from fastapi import APIRouter, Depends, status, UploadFile, Path, HTTPException
+
+from app.auth.authenticate import authenticate
+from app.database.connection import get_session
+from app.database.querying import (
     insert_record,
     get_record,
     get_records_by_field,
     update_record,
 )
-from database.storing import upload_progress_image
-from models.image import ProgressImage
-from models.experiment import Experiment
-from models.response import ResponseModel
+from app.database.storing import upload_progress_image
+from app.models.image import ProgressImage
+from app.models.experiment import Experiment
+from app.models.response import ResponseModel
 
 
 image_router = APIRouter(tags=["Images"])

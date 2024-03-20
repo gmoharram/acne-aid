@@ -1,7 +1,7 @@
 import os
 from sqlmodel import SQLModel, Session, create_engine
 
-from models.user import User
+from app.models.user import User
 
 
 db_uri = os.getenv("DB_URI")

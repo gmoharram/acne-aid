@@ -1,22 +1,20 @@
 from fastapi import APIRouter, Depends, Path, status, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 
-from auth.authenticate import authenticate
-from auth.jwt_handler import create_access_token
-from auth.hash_password import HashPassword
-from database.connection import get_session
-from database.querying import (
+from app.auth.authenticate import authenticate
+from app.auth.jwt_handler import create_access_token
+from app.auth.hash_password import HashPassword
+from app.database.connection import get_session
+from app.database.querying import (
     insert_record,
     get_record,
     get_records_by_field,
     update_record,
     delete_record,
-    select_all,
 )
-from models.user import User, UserUpdate
-from models.response import (
+from app.models.user import User, UserUpdate
+from app.models.response import (
     ResponseModel,
-    ResponseAllUsers,
     ResponseOneUser,
     TokenResponse,
 )

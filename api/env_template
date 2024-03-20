@@ -1,13 +1,14 @@
-# Removing "export" keyword works in macOS, but didn't work in Ubuntu 20.04 LTS.
+# Description: Template for environment variables. Store as .env in root directory. Used by docker-compose.yaml
 # In general issues transferring file between macOS and Windows git bash. Figure it out when needed
+
 ### SUPABASE DB CREDENTIALS ###
-export DB_PASSWORD="User password created for postgres user at the time of database creation."
-export DB_URI="postgresql://postgres.ubcapjlvybwnzqbqauma:$DB_PASSWORD@aws-0-eu-central-1.pooler.supabase.com:5432/postgres"
+DB_PASSWORD=""
+DB_URI="postgresql://postgres.ubcapjlvybwnzqbqauma:$DB_PASSWORD@aws-0-eu-central-1.pooler.supabase.com:5432/postgres"
 ### SUPABASE OBJECT STORAGE CREDENTIALS ###
-export SUPABASE_URL="https://ubcapjlvybwnzqbqauma.supabase.co"
-export SUPABASE_KEY="API KEY"
+SUPABASE_URL="https://ubcapjlvybwnzqbqauma.supabase.co"
+SUPABASE_KEY=""
 ### AUTHENTICATION ###
-export JWT_SECRET_KEY="JWT Secret Key"
+JWT_SECRET_KEY=""
 ### SELF-SIGNED SSL CERTIFICATE ###
-export SSL_CERTFILE="../certs/ssl.crt"
-export SSL_KEYFILE="../certs/ssl.key"
+SSL_CERTFILE="ssl/ssl.crt"
+SSL_KEYFILE="ssl/ssl.key"

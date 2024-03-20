@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import Union, Optional, List
 
-from .user import User
+from app.models.user import User
 
 
 class ResponseModel(BaseModel):

@@ -1,6 +1,5 @@
 from fastapi import HTTPException, status
 from sqlmodel import select
-import pdb
 
 
 async def insert_record(record, session) -> None:

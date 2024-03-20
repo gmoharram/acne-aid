@@ -4,17 +4,15 @@ from io import BytesIO
 from PIL import Image, UnidentifiedImageError
 import torch
 
-from ai.load_model import load_model
-from ai.skin_segmentation_nn import SkinSegmentationNN
-import ai.utils as utils
-from auth.authenticate import authenticate
-from database.connection import get_session
-from database.querying import get_record, update_record
-from database.storing import download_progress_image, upload_segmentation_mask
-from models.image import ProgressImage
-from models.response import ResponseModel
-
-import pdb
+from app.ai.load_model import load_model
+from app.ai.skin_segmentation_nn import SkinSegmentationNN
+import app.ai.utils as utils
+from app.auth.authenticate import authenticate
+from app.database.connection import get_session
+from app.database.querying import get_record, update_record
+from app.database.storing import download_progress_image, upload_segmentation_mask
+from app.models.image import ProgressImage
+from app.models.response import ResponseModel
 
 ai_router = APIRouter(tags=["AI"])
 segmentation_model = load_model(SkinSegmentationNN, "app/ai/models/model")

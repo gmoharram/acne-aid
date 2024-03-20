@@ -4,7 +4,7 @@ from io import BytesIO
 from supabase import create_client, Client
 from fastapi import UploadFile
 
-from models.image import ProgressImage
+from app.models.image import ProgressImage
 
 import pdb
 
