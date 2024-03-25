@@ -1,33 +1,38 @@
 import os
 import numpy as np
 from io import BytesIO
-from supabase import create_client, Client
+from google.cloud import storage
 from fastapi import UploadFile
 
 from app.models.image import ProgressImage
 
 import pdb
 
-url: str = os.environ.get("SUPABASE_URL")
-key: str = os.environ.get("SUPABASE_KEY")
-supabase: Client = create_client(url, key)
+storage_client = storage.Client()
 
 
-async def upload_progress_image(
-    image: UploadFile, image_path: str, storage_bucket: str
+async def upload_file_to_object_storage(
+    file: UploadFile, file_path: str, storage_bucket: str
 ):
-    supabase.storage.from_(storage_bucket).upload(
-        file=image.file.read(),
-        path=image_path,
-        file_options={"content-type": image.content_type},
-    )
+
+    bucket = storage_client.bucket(storage_bucket)
+    blob = bucket.blob(file_path)
+    blob.upload_from_file(file_obj=file.file, content_type=file.content_type)
+
+
+async def download_file_from_object_storage(file_path: str, storage_bucket: str):
+    bucket = storage_client.bucket(storage_bucket)
+    blob = bucket.blob(file_path)
+    return blob.download_as_bytes()
 
 
 async def download_progress_image(
     image_record: ProgressImage,
     storage_bucket: str,
 ):
-    return supabase.storage.from_(storage_bucket).download(image_record.image_path)
+    return await download_file_from_object_storage(
+        image_record.image_path, storage_bucket
+    )
 
 
 async def upload_segmentation_mask(
@@ -41,9 +46,3 @@ async def upload_segmentation_mask(
 
     pdb.set_trace()
     # TODO: Fix this shit
-
-    await supabase.storage.from_(storage_bucket).upload(
-        file=in_memory_file.read1(),
-        path=mask_path,
-        file_options={"content-type": "text/"},
-    )

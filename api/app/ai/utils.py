@@ -4,6 +4,8 @@ from torchvision import transforms
 
 from app.ai.constants import INPUT_HEIGHT, INPUT_WIDTH, SEG_LABELS_LIST
 
+import pdb
+
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -57,7 +59,11 @@ def segment_image(input_image, seg_model):
     inputs = input_image.unsqueeze(0)
     inputs = inputs.to(device)
 
-    seg_probabilities = seg_model.forward(inputs)
+    pdb.set_trace()
+
+    # TODO: server crashes when trying to segment image. device is cpu. Memory error? No docker 287.9MB / 7.58GB
+    with torch.no_grad():
+        seg_probabilities = seg_model.forward(inputs)
 
     _, seg_mask = torch.max(seg_probabilities, 1)
     seg_mask = seg_mask[0].data.cpu()

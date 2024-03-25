@@ -10,7 +10,7 @@ from app.database.querying import (
     get_records_by_field,
     update_record,
 )
-from app.database.storing import upload_progress_image
+from app.database.storing import upload_file_to_object_storage
 from app.models.image import ProgressImage
 from app.models.experiment import Experiment
 from app.models.response import ResponseModel
@@ -36,13 +36,15 @@ async def upload_image(
             "message": "User attempting to upload image to an experiment belonging to another user."
         }
 
-    storage_bucket = "progress.skin"
+    storage_bucket = "progress_images"
     image_path = (
         f"{user_id}/{experiment_id}/{image.filename}_"
         f"{datetime.today().strftime('%Y-%m-%d')}"
     )
 
-    await upload_progress_image(image, image_path, storage_bucket=storage_bucket)
+    await upload_file_to_object_storage(
+        image, image_path, storage_bucket=storage_bucket
+    )
 
     image_record = ProgressImage(
         experiment_id=experiment_id,

@@ -1,0 +1,5 @@
+GOOGLE ADMIN from Command line
+
+gcloud auth login
+gcloud sql users list --instance=acneaiddb --project=acneaidapi-417914
+gcloud sql databases describe main_db --instance=acneaiddb
