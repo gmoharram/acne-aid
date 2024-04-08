@@ -1,5 +1,3 @@
-# import os
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -43,17 +41,3 @@ app.include_router(ai_router)
 @app.on_event("startup")
 def on_startup():
     connect_to_db()
-
-
-# if __name__ == "__main__":
-
-#     ssl_certfile = os.environ.get("SSL_CERTFILE")
-#     ssl_keyfile = os.environ.get("SSL_KEYFILE")
-
-#     uvicorn.run(
-#         "main:app",
-#         port=8000,
-#         reload=False,  # Set to True for development
-#         ssl_certfile=ssl_certfile,
-#         ssl_keyfile=ssl_keyfile,
-#     )

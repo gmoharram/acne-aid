@@ -8,10 +8,18 @@ class UserSignin(SQLModel):
     password: str
 
 
-class User(UserSignin, table=True):
+class UserSignup(UserSignin):
+    username: str
+    sex: str
+    birthdate: date
+
+
+class User(SQLModel, table=True):
     # ID is optional in our code but will always be created when saved to the db
     # (https://sqlmodel.tiangolo.com/tutorial/create-db-and-table/)
     id: Optional[int] = Field(default=None, primary_key=True)
+    firebase_id: Optional[str]
+    email: str
     username: str
     sex: str
     birthdate: date
@@ -23,7 +31,6 @@ class User(UserSignin, table=True):
         schema_extra = {
             "example": {
                 "email": "fake@mail.com",
-                "password": "password",
                 "username": "Gana",
                 "sex": "female",
                 "birthdate": "2023-09-13",

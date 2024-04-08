@@ -1,6 +1,7 @@
 .env
 env-file
 .venv
+firebase_private_key.json
 
 __pycache__
 .DS_Store

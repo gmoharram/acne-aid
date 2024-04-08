@@ -19,4 +19,4 @@ class ResponseOneUser(ResponseModel):
 
 class TokenResponse(ResponseModel):
     access_token: str
-    token_type: str
+    token_type: str = "Bearer"

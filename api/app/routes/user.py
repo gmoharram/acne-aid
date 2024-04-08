@@ -1,9 +1,7 @@
-from fastapi import APIRouter, Depends, Path, status, HTTPException
-from fastapi.security import OAuth2PasswordRequestForm
+from fastapi import APIRouter, Depends, status, HTTPException
+from firebase_admin import auth as firebase_auth
 
-from app.auth.authenticate import authenticate
-from app.auth.jwt_handler import create_access_token
-from app.auth.hash_password import HashPassword
+from app.auth.authenticate import firebase, authenticate
 from app.database.connection import get_session
 from app.database.querying import (
     insert_record,
@@ -12,14 +10,14 @@ from app.database.querying import (
     update_record,
     delete_record,
 )
-from app.models.user import User, UserUpdate
+from app.models.user import UserSignup, UserSignin, User, UserUpdate
 from app.models.response import (
     ResponseModel,
     ResponseOneUser,
     TokenResponse,
 )
 
-password_hasher = HashPassword()
+
 user_router = APIRouter(tags=["Users"])
 
 
@@ -28,40 +26,51 @@ user_router = APIRouter(tags=["Users"])
     response_model=ResponseModel,
     status_code=status.HTTP_201_CREATED,
 )
-async def signup_user(user: User, session=Depends(get_session)) -> dict:
-    users_with_same_email = await get_records_by_field(
-        user.email, "email", User, session
-    )
-    if users_with_same_email:
+async def signup_user(user_data: UserSignup, session=Depends(get_session)) -> dict:
+    try:
+        firebase_user = firebase_auth.create_user(
+            email=user_data.email, password=user_data.password
+        )
+
+        user = User(
+            firebase_id=firebase_user.uid,
+            email=user_data.email,
+            username=user_data.username,
+            sex=user_data.sex,
+            birthdate=user_data.birthdate,
+        )
+        await insert_record(user, session)
+
+        return {"message": "User successfully registered!"}
+
+    except firebase_auth.EmailAlreadyExistsError:
         raise HTTPException(
             status_code=400, detail="User with this email already exists."
         )
-    hashed_password = password_hasher.create_hash(user.password)
-    user.password = hashed_password
-    await insert_record(user, session)
-    return {"message": "User successfully registered!"}
 
 
 @user_router.post("/user/signin", response_model=TokenResponse)
-async def singin_user(
-    user_form: OAuth2PasswordRequestForm = Depends(), session=Depends(get_session)
-) -> dict:
-    # check that there is exactly one user with the email provided
-    users_found = await get_records_by_field(user_form.username, "email", User, session)
-    if len(users_found) > 1:
-        raise HTTPException(
-            status_code=500, detail="Multiple users with this email found."
-        )
-    user = users_found[0]
+async def singin_user(user_data: UserSignin, session=Depends(get_session)) -> dict:
 
-    # authenticate user with password
-    if password_hasher.verify_hash(user_form.password, user.password):
-        access_token = create_access_token(user.id)
-        return {
-            "message": "Sign-in successful!",
-            "access_token": access_token,
-            "token_type": "Bearer",
-        }
+    # authenticate user with password via firebase
+    try:
+        firebase_user = firebase.auth().sign_in_with_email_and_password(
+            user_data.email, user_data.password
+        )  # Caution: Not the same datatype as in signup function
+        firebase_token = firebase_user["idToken"]
+
+        user = await get_records_by_field(
+            firebase_user["localId"], "firebase_id", User, session
+        )
+        user = user[0]
+        assert user.email == user_data.email, "Major error in user authentication."
+
+        return {"access_token": firebase_token, "data": {"user_id": user.id}}
+
+    except firebase_auth.EmailNotFoundError:
+        raise HTTPException(status_code=400, detail="Invalid email.")
+    except ValueError:  # TODO: Check if this occurs in other cases
+        raise HTTPException(status_code=400, detail="Invalid password.")
 
 
 @user_router.get("/user/get", response_model=ResponseOneUser)
