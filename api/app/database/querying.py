@@ -1,5 +1,6 @@
 from fastapi import HTTPException, status
 from sqlmodel import select
+from app.models.user import User
 
 
 async def insert_record(record, session) -> None:

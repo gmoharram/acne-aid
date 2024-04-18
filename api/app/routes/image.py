@@ -2,7 +2,7 @@ from datetime import datetime
 
 from fastapi import APIRouter, Depends, status, UploadFile, Path, HTTPException
 
-from app.auth.authenticate import authenticate
+from app.auth.authenticate import authenticate_user_credentials
 from app.database.connection import get_session
 from app.database.querying import (
     insert_record,
@@ -14,6 +14,7 @@ from app.database.storing import upload_file_to_object_storage
 from app.models.image import ProgressImage
 from app.models.experiment import Experiment
 from app.models.response import ResponseModel
+from app.models.user import User
 
 
 image_router = APIRouter(tags=["Images"])
@@ -27,18 +28,22 @@ image_router = APIRouter(tags=["Images"])
 async def upload_image(
     image: UploadFile,
     experiment_id: int,
-    user_id: int = Depends(authenticate),
+    user_firebase_id: int = Depends(authenticate_user_credentials),
     session=Depends(get_session),
 ):
+
+    user = await get_records_by_field(user_firebase_id, "firebase_id", User, session)
+    user = user[0]
+
     experiment_record = await get_record(experiment_id, Experiment, session)
-    if experiment_record.user_id != user_id:
+    if experiment_record.user_id != user.id:
         return {
             "message": "User attempting to upload image to an experiment belonging to another user."
         }
 
     storage_bucket = "progress_images"
     image_path = (
-        f"{user_id}/{experiment_id}/{image.filename}_"
+        f"{user.id}/{experiment_id}/{image.filename}_"
         f"{datetime.today().strftime('%Y-%m-%d')}"
     )
 
@@ -48,7 +53,7 @@ async def upload_image(
 
     image_record = ProgressImage(
         experiment_id=experiment_id,
-        user_id=user_id,
+        user_id=user.id,
         storage_bucket=storage_bucket,
         image_path=image_path,
         image_format=image.content_type.split("/")[1],
@@ -67,7 +72,7 @@ async def upload_image(
 )
 async def retrieve_experiment_images(
     experiment_id: int,
-    user_id: int = Depends(authenticate),
+    user_firebase_id: int = Depends(authenticate_user_credentials),
     session=Depends(get_session),
 ):
     """Function which only returns the image paths and storage buckets."""
@@ -92,7 +97,7 @@ async def retrieve_experiment_images(
 @image_router.put("/image/delete/{image_id}")
 async def delete_image(
     image_id: int = Path(..., title="ID of image to delete."),
-    user_id=Depends(authenticate),
+    user_id=Depends(authenticate_user_credentials),
     session=Depends(get_session),
 ):
     image_record = await get_record(image_id, ProgressImage, session)

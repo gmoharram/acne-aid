@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, status, HTTPException
 
-from app.auth.authenticate import authenticate
+from app.auth.authenticate import authenticate_user_credentials
 from app.database.connection import get_session
 from app.database.querying import (
     insert_record,
@@ -19,6 +19,7 @@ from app.models.experiment import (
     RoutineStep,
 )
 from app.models.response import ResponseModel
+from app.models.user import User
 from app.routes.utils import (
     timing_and_order_to_timestamp,
     set_experiment_end_date,
@@ -31,7 +32,9 @@ experiment_router = APIRouter(tags=["Experiments"])
 
 @experiment_router.get("/experiment/retrieve", response_model=ResponseModel)
 async def get_experiment(
-    experiment_name: str, user_id=Depends(authenticate), session=Depends(get_session)
+    experiment_name: str,
+    user_id=Depends(authenticate_user_credentials),
+    session=Depends(get_session),
 ):
     data_models_dict = {}
     data_models_dict[Experiment] = (
@@ -57,7 +60,7 @@ async def get_experiment(
 
 @experiment_router.get("/experiment/retrieve-all", response_model=ResponseModel)
 async def get_all_experiments_for_user(
-    user_id=Depends(authenticate), session=Depends(get_session)
+    user_id=Depends(authenticate_user_credentials), session=Depends(get_session)
 ):
     data_models_dict = {}
     data_models_dict[Experiment] = (None, None, {"user_id": user_id})
@@ -89,11 +92,15 @@ async def get_all_experiments_for_user(
 )
 async def create_experiment(
     experiment_data: ExperimentData,
-    user_id: int = Depends(authenticate),
+    user_firebase_id: int = Depends(authenticate_user_credentials),
     session=Depends(get_session),
 ):
+
+    user = await get_records_by_field(user_firebase_id, "firebase_id", User, session)
+    user = user[0]
+
     # Check that user doesn't have experiment of the same name
-    fields_dict = {"user_id": user_id, "name": experiment_data.experiment_name}
+    fields_dict = {"user_id": user.id, "name": experiment_data.experiment_name}
     experiments_with_same_name = await get_records_by_fields(
         fields_dict, Experiment, session
     )
@@ -104,7 +111,7 @@ async def create_experiment(
 
     # Create experiment table record
     experiment_record = Experiment(
-        user_id=user_id, name=experiment_data.experiment_name
+        user_id=user.id, name=experiment_data.experiment_name
     )
     await insert_record(experiment_record, session)
 
@@ -164,12 +171,16 @@ async def create_experiment(
 @experiment_router.put("/experiment/end", response_model=ResponseModel)
 async def end_experiment(
     experiment_id: int,
-    user_id: int = Depends(authenticate),
+    user_firebase_id: int = Depends(authenticate_user_credentials),
     session=Depends(get_session),
 ):
+
+    user = await get_records_by_field(user_firebase_id, "firebase_id", User, session)
+    user = user[0]
+
     experiment_record = await get_record(experiment_id, Experiment, session)
 
-    if experiment_record.user_id != user_id:
+    if experiment_record.user_id != user.id:
         raise HTTPException(
             status_code=400,
             detail="User attempting to end experiment belonging to another user.",
@@ -185,13 +196,17 @@ async def end_experiment(
 @experiment_router.put("/experiment/remove", response_model=ResponseModel)
 async def remove_experiment(
     experiment_id: int,
-    user_id: int = Depends(authenticate),
+    user_firebase_id: int = Depends(authenticate_user_credentials),
     session=Depends(get_session),
 ):
     """Set the deleted column of the experiment record with the given experiment_id to True."""
+
+    user = await get_records_by_field(user_firebase_id, "firebase_id", User, session)
+    user = user[0]
+
     experiment_record = await get_record(experiment_id, Experiment, session)
 
-    if experiment_record.user_id != user_id:
+    if experiment_record.user_id != user.id:
         raise HTTPException(
             status_code=400,
             detail="User attempting to remove experiment belonging to another user.",

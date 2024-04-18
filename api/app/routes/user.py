@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, status, HTTPException
 from firebase_admin import auth as firebase_auth
 
-from app.auth.authenticate import firebase, authenticate
+from app.auth.authenticate import firebase, authenticate_user_credentials
 from app.database.connection import get_session
 from app.database.querying import (
     insert_record,
@@ -75,27 +75,33 @@ async def singin_user(user_data: UserSignin, session=Depends(get_session)) -> di
 
 @user_router.get("/user/get", response_model=ResponseOneUser)
 async def retrieve_user(
-    user_id: int = Depends(authenticate),
+    user_firebase_id: int = Depends(authenticate_user_credentials),
     session=Depends(get_session),
 ) -> dict:
-    record = await get_record(user_id, User, session)
-    return {"data": record}
+
+    user = await get_records_by_field(user_firebase_id, "firebase_id", User, session)
+    user = user[0]
+    return {"data": user}
 
 
 @user_router.put("/user/", response_model=ResponseOneUser)
 async def update_user(
     updated_user: UserUpdate,
-    user_id: int = Depends(authenticate),
+    user_firebase_id: int = Depends(authenticate_user_credentials),
     session=Depends(get_session),
 ) -> dict:
-    record = await update_record(user_id, User, updated_user, session)
+    user = await get_records_by_field(user_firebase_id, "firebase_id", User, session)
+    user = user[0]
+    record = await update_record(user.id, User, updated_user, session)
     return {"message": "User sucessfully updated!", "data": record}
 
 
 @user_router.delete("/user/", response_model=ResponseModel)
 async def delete_user(
-    user_id: int = Depends(authenticate),
+    user_firebase_id: int = Depends(authenticate_user_credentials),
     session=Depends(get_session),
 ) -> dict:
-    await delete_record(user_id, User, session)
+    user = await get_records_by_field(user_firebase_id, "firebase_id", User, session)
+    user = user[0]
+    await delete_record(user.id, User, session)
     return {"message": "User successfully deleted!"}

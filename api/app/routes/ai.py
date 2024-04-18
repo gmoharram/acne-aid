@@ -7,12 +7,13 @@ import torch
 from app.ai.load_model import load_model
 from app.ai.skin_segmentation_nn import SkinSegmentationNN
 import app.ai.utils as utils
-from app.auth.authenticate import authenticate
+from app.auth.authenticate import authenticate_user_credentials
 from app.database.connection import get_session
-from app.database.querying import get_record, update_record
+from app.database.querying import get_record, update_record, get_records_by_field
 from app.database.storing import download_progress_image, upload_segmentation_mask
 from app.models.image import ProgressImage
 from app.models.response import ResponseModel
+from app.models.user import User
 
 import pdb
 
@@ -29,11 +30,14 @@ segmentation_model.to(device)
 )
 async def segment_image(
     image_id: int,
-    user_id: int = Depends(authenticate),
+    user_firebase_id: int = Depends(authenticate_user_credentials),
     session=Depends(get_session),
 ):
+    user = await get_records_by_field(user_firebase_id, "firebase_id", User, session)
+    user = user[0]
+
     image_record = await get_record(image_id, ProgressImage, session)
-    if image_record.user_id != user_id:
+    if image_record.user_id != user.id:
         raise HTTPException(
             status_code=400, detail="Cannot segment image of another user"
         )
@@ -49,7 +53,8 @@ async def segment_image(
     image = utils.transform_image(image)
     image = image.to(device)
 
-    # TODO: server crashes when trying to segment image. device is cpu. Memory error? No docker 287.9MB / 7.58GB
+    # TODO: server crashes when trying to segment image. device is cpu.
+    # Memory error? No docker 287.9MB / 7.58GB
     segmask = utils.segment_image(image, segmentation_model)
     segmask_path = (
         f"{image_record.image_path.split('_')[0]}"
