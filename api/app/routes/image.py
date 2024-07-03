@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 
 from fastapi import APIRouter, Depends, status, UploadFile, Path, HTTPException
@@ -18,6 +19,8 @@ from app.models.user import User
 
 
 image_router = APIRouter(tags=["Images"])
+
+storage_bucket = os.getenv("STORAGE_BUCKET")
 
 
 @image_router.post(
@@ -41,7 +44,6 @@ async def upload_image(
             "message": "User attempting to upload image to an experiment belonging to another user."
         }
 
-    storage_bucket = "progress_images"
     image_path = (
         f"{user.id}/{experiment_id}/{image.filename}_"
         f"{datetime.today().strftime('%Y-%m-%d')}"

@@ -1,5 +1,7 @@
-from fastapi import APIRouter, Depends, status, HTTPException, Response
+import os
 from datetime import datetime
+
+from fastapi import APIRouter, Depends, status, HTTPException, Response
 from io import BytesIO
 from PIL import Image, UnidentifiedImageError
 import torch
@@ -18,9 +20,12 @@ from app.models.user import User
 import pdb
 
 ai_router = APIRouter(tags=["AI"])
+
 segmentation_model = load_model(SkinSegmentationNN, "app/ai/models/model")
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 segmentation_model.to(device)
+
+storage_bucket = os.getenv("STORAGE_BUCKET")
 
 
 @ai_router.post(
@@ -42,7 +47,6 @@ async def segment_image(
             status_code=400, detail="Cannot segment image of another user"
         )
 
-    storage_bucket = "progress_images"
     image = await download_progress_image(image_record, storage_bucket)
 
     try:
